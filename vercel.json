@@ -1,0 +1,14 @@
+{
+  "buildCommand": "echo 'Build complete'",
+  "framework": "other",
+  "public": "./",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*.js"
+    }
+  ],
+  "env": {
+    "CONTACT_EMAIL": "@contact_email"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "myresume",
+  "version": "1.0.0",
+  "description": "Eric John Kenneth Briones - Portfolio & Resume",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "start": "vercel dev"
+  },
+  "keywords": [
+    "portfolio",
+    "resume",
+    "3d-art",
+    "web-development"
+  ],
+  "author": "Eric John Kenneth Briones",
+  "license": "MIT",
+  "engines": {
+    "node": "18.x"
+  }
+}

@@ -1,0 +1,68 @@
+/* Custom overrides and project-specific styles */
+.sitename {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* small spacing tweaks */
+.hero .social-links a {
+  margin-right: .5rem;
+}
+/* Skills list styling */
+.skills-list {
+  margin: 0;
+  padding: 0;
+}
+.skills-list li {
+  display: flex;
+  align-items: center;
+  padding: 0.35rem 0;
+  color: #333;
+}
+.skills-list li + li {
+  border-top: none;
+}
+.skill-icon {
+  color: #0d6efd;
+  margin-right: 0.5rem;
+  font-size: 1.05rem;
+}
+
+@media (min-width: 768px) {
+  .skills-list li {
+    padding: 0.5rem 0;
+  }
+}
+
+/* Scroll symbols background animation with icons */
+.scroll-symbol {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 1;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-25px);
+  }
+}
+
+/* About image restraint */
+#about .section-title img.about-img {
+  max-width: 220px;
+  height: auto;
+  display: block;
+  margin: 0 auto 1rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(17,17,17,0.08);
+}
