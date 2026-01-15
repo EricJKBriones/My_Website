@@ -15,6 +15,9 @@
   ],
   "author": "Eric John Kenneth Briones",
   "license": "MIT",
+  "dependencies": {
+    "@vercel/kv": "^1.0.1"
+  },
   "engines": {
     "node": "20.x"
   }

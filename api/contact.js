@@ -1,3 +1,5 @@
+const { kv } = require('@vercel/kv');
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
@@ -17,9 +19,15 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // For now, just echo success (messages are stored on frontend)
-    // In production, you could integrate with a service like SendGrid or use Vercel KV for storage
-    console.log(`New message from ${name} (${email}): ${message}`);
+    const messageData = {
+      name,
+      email,
+      subject,
+      message,
+      createdAt: new Date().toISOString(),
+    };
+
+    await kv.lpush('messages', JSON.stringify(messageData));
 
     return res.status(200).json({
       success: true,
@@ -33,3 +41,4 @@ module.exports = async (req, res) => {
     });
   }
 };
+

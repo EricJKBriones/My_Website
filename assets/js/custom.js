@@ -47,6 +47,41 @@
       });
     }
 
+    // Function to load messages from the server
+    function loadMessages() {
+      fetch('/api/get-messages')
+        .then(function (resp) { return resp.json(); })
+        .then(function (data) {
+          if (data.success) {
+            var messagesList = document.getElementById('messages-list');
+            if (messagesList) {
+              messagesList.innerHTML = ''; // Clear existing messages
+              if (data.messages.length === 0) {
+                messagesList.innerHTML = '<div class="col-lg-8 mx-auto"><div class="testimonial-item"><div class="testimonial-content text-center"><p class="text-muted">No messages yet — send one via the contact form.</p></div></div></div>';
+              } else {
+                data.messages.forEach(function (messageData) {
+                  var container = document.createElement('div');
+                  container.className = 'col-lg-8 mx-auto';
+                  var timeStr = new Date(messageData.createdAt).toLocaleString();
+                  container.innerHTML = '<div class="testimonial-item"><div class="testimonial-content"><p><i class="bi bi-quote quote-icon-left"></i><span>' + escapeHtml(messageData.message) + '</span><i class="bi bi-quote quote-icon-right"></i></p><div class="small text-muted">Posted by ' + escapeHtml(messageData.name) + ' on ' + escapeHtml(timeStr) + '</div></div></div>';
+                  messagesList.appendChild(container);
+                });
+              }
+            }
+          }
+        })
+        .catch(function (err) {
+          console.error('Error loading messages:', err);
+          var messagesList = document.getElementById('messages-list');
+          if (messagesList) {
+            messagesList.innerHTML = '<div class="col-lg-8 mx-auto"><div class="testimonial-item"><div class="testimonial-content text-center"><p class="text-danger">Could not load messages.</p></div></div></div>';
+          }
+        });
+    }
+
+    // Load messages when the page loads
+    loadMessages();
+
     // Intercept contact form submissions, post to server and append anonymous message
     try {
       var contactForm = document.querySelector('form.php-email-form');
@@ -81,17 +116,7 @@
                 if (loading) loading.style.display = 'none';
                 if (sentEl) sentEl.style.display = 'block';
                 contactForm.reset();
-
-                var messagesList = document.getElementById('messages-list');
-                if (messagesList) {
-                  var container = document.createElement('div');
-                  container.className = 'col-lg-8 mx-auto';
-                  var now = new Date();
-                  var timeStr = now.toLocaleString();
-                  container.innerHTML = '<div class="testimonial-item"><div class="testimonial-content"><p><i class="bi bi-quote quote-icon-left"></i><span>' + escapeHtml(messageText) + '</span><i class="bi bi-quote quote-icon-right"></i></p><div class="small text-muted">Posted ' + escapeHtml(timeStr) + '</div></div></div>';
-                  // prepend the new message
-                  messagesList.insertBefore(container, messagesList.firstChild);
-                }
+                loadMessages(); // Reload messages after submission
               } else {
                 throw new Error(data.message || 'Unknown error');
               }
