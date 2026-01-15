@@ -5,7 +5,6 @@
   "main": "index.html",
   "scripts": {
     "dev": "vercel dev",
-    "build": "echo 'Static site - no build needed'",
     "start": "vercel dev"
   },
   "keywords": [
@@ -17,6 +16,6 @@
   "author": "Eric John Kenneth Briones",
   "license": "MIT",
   "engines": {
-    "node": "24.x"
+    "node": "20.x"
   }
 }
