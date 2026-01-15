@@ -1,7 +1,6 @@
 {
   "buildCommand": "echo 'Build complete'",
   "framework": "other",
-  "public": "./",
   "rewrites": [
     {
       "source": "/api/:path*",
