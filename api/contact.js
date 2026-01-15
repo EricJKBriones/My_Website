@@ -1,4 +1,4 @@
-export default async (req, res) => {
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
@@ -15,9 +15,6 @@ export default async (req, res) => {
   if (!emailRegex.test(email)) {
     return res.status(400).json({ message: 'Invalid email address' });
   }
-
-  // Get the contact email from environment variables
-  const contactEmail = process.env.CONTACT_EMAIL || 'contact@example.com';
 
   try {
     // For now, just echo success (messages are stored on frontend)
