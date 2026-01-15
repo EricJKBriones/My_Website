@@ -66,3 +66,25 @@
   border-radius: 8px;
   box-shadow: 0 6px 18px rgba(17,17,17,0.08);
 }
+
+/* About Section Customizations */
+.about-container {
+  border: 1px solid #ccc;
+  padding: 20px;
+  max-width: 800px;
+  margin: 20px auto 0;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(17,17,17,0.08);
+}
+
+.about-container .about-img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
