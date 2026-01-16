@@ -67,7 +67,18 @@
       if (response.ok) {
         return response.text();
       } else {
-        throw new Error(`${response.status} ${response.statusText} ${response.url}`);
+        // The API sends back a JSON error response. Let's try to parse it.
+        return response.json().then(errorBody => {
+          // Construct a more detailed error message
+          let errorMessage = `API Error: ${errorBody.message || 'Unknown error'}`;
+          if (errorBody.debug_info) {
+            errorMessage += ` | Details: KV URL Set: ${errorBody.debug_info.kv_url_set}, KV Token Set: ${errorBody.debug_info.kv_rest_api_token_set}`;
+          }
+          throw new Error(errorMessage);
+        }).catch(() => {
+          // If parsing JSON fails, fall back to the original error.
+          throw new Error(`Server returned ${response.status} ${response.statusText}. Could not parse error response body.`);
+        });
       }
     })
     .then(data => {

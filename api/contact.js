@@ -1,6 +1,13 @@
 const { kv } = require('@vercel/kv');
 
 module.exports = async (req, res) => {
+  // Enhanced logging to debug environment variables
+  console.log('--- VERCEL ENVIRONMENT ---');
+  console.log('VERCEL_ENV:', process.env.VERCEL_ENV);
+  console.log('KV_URL is set:', !!process.env.KV_URL);
+  console.log('KV_REST_API_TOKEN is set:', !!process.env.KV_REST_API_TOKEN);
+  console.log('--- END VERCEL ENVIRONMENT ---');
+
   console.log('Contact function invoked.');
   console.log('Request method:', req.method);
 
@@ -40,10 +47,20 @@ module.exports = async (req, res) => {
 
     return res.status(200).send('OK');
   } catch (error) {
+    console.error('--- DETAILED ERROR ---');
     console.error('Error processing message:', error);
+    console.error('KV_URL is set:', !!process.env.KV_URL);
+    console.error('KV_REST_API_TOKEN is set:', !!process.env.KV_REST_API_TOKEN);
+    console.error('--- END DETAILED ERROR ---');
     return res.status(500).json({
       success: false,
-      message: 'Failed to process message'
+      message: 'Failed to process message',
+      debug_info: {
+        kv_url_set: !!process.env.KV_URL,
+        kv_rest_api_token_set: !!process.env.KV_REST_API_TOKEN,
+        error_message: error.message,
+        error_stack: error.stack
+      }
     });
   }
 };
