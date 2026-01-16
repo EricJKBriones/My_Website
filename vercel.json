@@ -1,2 +1,8 @@
 {
+    "env": {
+        "KV_URL": "@redis-yellow-messages",
+        "KV_REST_API_URL": "@redis-yellow-messages-url",
+        "KV_REST_API_TOKEN": "@redis-yellow-messages-token",
+        "KV_REST_API_READ_ONLY_TOKEN": "@redis-yellow-messages-read-only-token"
+    }
 }
