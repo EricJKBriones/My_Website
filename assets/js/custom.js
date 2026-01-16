@@ -112,7 +112,7 @@
           })
             .then(function (resp) { return resp.json(); })
             .then(function (data) {
-              if (data.success || data.message === 'Message received successfully') {
+              if (data.success) {
                 if (loading) loading.style.display = 'none';
                 if (sentEl) sentEl.style.display = 'block';
                 contactForm.reset();
