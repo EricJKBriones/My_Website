@@ -35,21 +35,21 @@
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translate(0px, 0px) scale(1);
-    opacity: 0; /* Start invisible */
+  0% {
+    opacity: 0;
+    transform: translate(var(--initial-x), var(--initial-y)) scale(0.8);
   }
-  25% {
-    transform: translate(calc(var(--rand-x) * 0.25), calc(var(--rand-y) * 0.25)) scale(1.1);
-    opacity: 1; /* Fade in */
-  }
-  50% {
-    transform: translate(calc(var(--rand-x) * 0.5), calc(var(--rand-y) * 0.5)) scale(1.2);
+  10% {
     opacity: 1;
+    transform: translate(var(--initial-x), var(--initial-y)) scale(1);
   }
-  75% {
-    transform: translate(calc(var(--rand-x) * 0.75), calc(var(--rand-y) * 0.75)) scale(1.1);
+  90% {
     opacity: 1;
+    transform: translate(var(--final-x), var(--final-y)) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--final-x), var(--final-y)) scale(1.2);
   }
 }
 
@@ -97,4 +97,18 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Styling for the Send Message button in the contact form */
+.php-email-form button[type="submit"] {
+  background: #0d6efd; /* A pleasant blue */
+  border: 0;
+  padding: 10px 30px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 4px;
+}
+
+.php-email-form button[type="submit"]:hover {
+  background: #0b5ed7; /* A darker blue on hover */
 }

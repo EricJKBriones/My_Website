@@ -134,7 +134,7 @@ const Contact = () => {
                   {status.loading && <div className="loading" style={{ display: 'block' }}>Loading</div>}
                   {status.error && <div className="error-message" style={{ display: 'block' }}>{status.error}</div>}
                   {status.sent && <div className="sent-message" style={{ display: 'block' }}>Your message has been sent. Thank you!</div>}
-                  <button type="submit" disabled={status.loading}>Send Message</button>
+                  <button type="submit" className="php-email-form button" disabled={status.loading}>Send Message</button>
                 </div>
               </div>
             </form>
