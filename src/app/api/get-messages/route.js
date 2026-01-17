@@ -1,13 +1,13 @@
-import { kv } from '@vercel/kv';
 import { NextResponse } from 'next/server';
+import { kv } from '@vercel/kv';
 
-export async function GET(request) {
+export async function GET() {
   try {
-    // Retrieve all messages. They are stored as simple strings.
     const messages = await kv.lrange('messages', 0, -1);
-    return NextResponse.json({ messages: messages }, { status: 200 });
+    const parsedMessages = messages.map(msg => JSON.parse(msg).message);
+    return NextResponse.json({ messages: parsedMessages });
   } catch (error) {
-    console.error('Error retrieving messages from KV:', error);
-    return NextResponse.json({ message: 'Failed to retrieve messages', error: error.message }, { status: 500 });
+    console.error('Error fetching messages:', error);
+    return NextResponse.json({ messages: [] }, { status: 500 });
   }
 }

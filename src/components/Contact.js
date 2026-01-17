@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-const Contact = () => {
+const Contact = ({ onMessageSend }) => {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState({ loading: false, error: null, sent: false });
 
@@ -30,10 +30,9 @@ const Contact = () => {
       const data = await res.json();
       if (data.status === "Message sent and saved!") {
         setStatus({ loading: false, error: null, sent: true });
+        onMessageSend(message);
         setMessage('');
-        // Simple way to refresh messages is to reload the page.
-        // A more advanced solution would use a shared state management.
-        setTimeout(() => window.location.reload(), 1000);
+        setTimeout(() => setStatus({ loading: false, error: null, sent: false }), 2000);
       } else {
         throw new Error(data.status || 'Unknown submission error');
       }

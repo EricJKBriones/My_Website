@@ -1,5 +1,7 @@
-import React from 'react';
+'use client';
 
+import React, { useState, useEffect } from 'react';
+import FloatingIcons from '@/components/FloatingIcons';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
@@ -10,19 +12,38 @@ import Services from '@/components/Services';
 import Messages from '@/components/Messages';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import ScrollSpy from '@/components/ScrollSpy';
+import ScrollTopButton from '@/components/ScrollTopButton';
+import AOSInitializer from '@/components/AOSInitializer';
+import GLightboxInitializer from '@/components/GLightboxInitializer';
 
 export default function Home() {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/get-messages')
+      .then(resp => resp.json())
+      .then(data => {
+        if (data.messages) {
+          setMessages(data.messages);
+        }
+      })
+      .catch(err => {
+        console.error('Error loading messages:', err);
+      });
+  }, []);
+
+  const handleMessageSend = (newMessage) => {
+    setMessages([newMessage, ...messages]);
+  };
+
   return (
     <>
       {/* Floating icons */}
-      <div className="scroll-symbol"></div>
-      <div className="scroll-symbol"></div>
-      <div className="scroll-symbol"></div>
-      <div className="scroll-symbol"></div>
-      <div className="scroll-symbol"></div>
-      <div className="scroll-symbol"></div>
-      <div className="scroll-symbol"></div>
-      <div className="scroll-symbol"></div>
+      <FloatingIcons />
+      <ScrollSpy />
+      <AOSInitializer />
+      <GLightboxInitializer />
 
       <Header />
 
@@ -33,16 +54,14 @@ export default function Home() {
         <Resume />
         <Portfolio />
         <Services />
-        <Messages />
-        <Contact />
+        <Messages messages={messages} />
+        <Contact onMessageSend={handleMessageSend} />
       </main>
       
       <Footer />
 
       {/* Scroll Top */}
-      <a href="#" id="scroll-top" className="scroll-top d-flex align-items-center justify-content-center">
-        <i className="bi bi-arrow-up-short"></i>
-      </a>
+      <ScrollTopButton />
     </>
   );
 }

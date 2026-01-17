@@ -1,38 +1,36 @@
-import { kv } from '@vercel/kv';
-import nodemailer from 'nodemailer';
 import { NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
+import { kv } from '@vercel/kv';
 
 export async function POST(request) {
   try {
     const { message } = await request.json();
 
-    if (!message) {
-      return NextResponse.json({ message: 'Message is required' }, { status: 400 });
-    }
+    // Save to Vercel KV
+    const timestamp = new Date().toISOString();
+    await kv.lpush('messages', JSON.stringify({ message, timestamp }));
 
-    // 1. Save message to Vercel KV
-    await kv.lpush('messages', message);
-
-    // 2. Send email
+    // Send email using Nodemailer
     const transporter = nodemailer.createTransport({
-      service: 'gmail', // or another service
+      service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
       },
     });
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_TO,
-      subject: 'New Message from Your Website',
+    const mailOptions = {
+      from: process.env.GMAIL_USER,
+      to: 'briones.eric2003@gmail.com',
+      subject: 'New Message from Portfolio Contact Form',
       text: message,
-    });
+    };
 
-    return NextResponse.json({ status: "Message sent and saved!" }, { status: 200 });
+    await transporter.sendMail(mailOptions);
 
+    return NextResponse.json({ status: 'Message sent and saved!' });
   } catch (error) {
-    console.error('Error in contact API:', error);
-    return NextResponse.json({ message: 'Failed to send or save message', error: error.message }, { status: 500 });
+    console.error('Error processing request:', error);
+    return NextResponse.json({ status: 'Error processing request' }, { status: 500 });
   }
 }

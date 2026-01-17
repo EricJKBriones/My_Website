@@ -1,25 +1,5 @@
-import { Roboto, Poppins, Raleway } from 'next/font/google';
 import Script from 'next/script';
 import AppInitializer from '@/components/AppInitializer'; // Import the new component
-
-// Setup fonts
-const roboto = Roboto({
-  subsets: ['latin'],
-  weight: ['100', '300', '400', '500', '700', '900'],
-  variable: '--font-roboto',
-});
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  variable: '--font-poppins',
-});
-
-const raleway = Raleway({
-  subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  variable: '--font-raleway',
-});
 
 export const metadata = {
   title: 'Index - MyResume Bootstrap Template',
@@ -29,8 +9,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${roboto.variable} ${poppins.variable} ${raleway.variable}`}>
+    <html lang="en">
       <head>
+        {/* Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Raleway:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet" />
+
         {/* Favicons */}
         <link href="/assets/img/favicon.png" rel="icon" />
         <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
@@ -56,15 +41,15 @@ export default function RootLayout({ children }) {
         <div id="preloader"></div>
 
         {/* Vendor JS Files - These are needed for the initializer to work */}
-        <Script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></Script>
-        <Script src="/assets/vendor/aos/aos.js"></Script>
-        <Script src="/assets/vendor/typed.js/typed.umd.js"></Script>
-        <Script src="/assets/vendor/purecounter/purecounter_vanilla.js"></Script>
-        <Script src="/assets/vendor/waypoints/noframework.waypoints.js"></Script>
-        <Script src="/assets/vendor/glightbox/js/glightbox.min.js"></Script>
-        <Script src="/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></Script>
-        <Script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js"></Script>
-        <Script src="/assets/vendor/swiper/swiper-bundle.min.js"></Script>
+        <Script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js" strategy="beforeInteractive"></Script>
+        <Script src="/assets/vendor/aos/aos.js" strategy="beforeInteractive"></Script>
+        <Script src="/assets/vendor/typed.js/typed.umd.js" strategy="lazyOnload"></Script>
+        <Script src="/assets/vendor/purecounter/purecounter_vanilla.js" strategy="beforeInteractive"></Script>
+        <Script src="/assets/vendor/waypoints/noframework.waypoints.js" strategy="beforeInteractive"></Script>
+        <Script src="/assets/vendor/glightbox/js/glightbox.min.js" strategy="beforeInteractive"></Script>
+        <Script src="/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js" strategy="beforeInteractive"></Script>
+        <Script src="/assets/vendor/isotope-layout/isotope.pkgd.min.js" strategy="beforeInteractive"></Script>
+        <Script src="/assets/vendor/swiper/swiper-bundle.min.js" strategy="beforeInteractive"></Script>
         
         {/* main.js and custom.js are no longer needed as their logic is moved into components */}
       </body>

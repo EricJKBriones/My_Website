@@ -1,7 +1,39 @@
-import React from 'react';
-import Link from 'next/link';
+'use client';
+
+import React, { useEffect } from 'react';
 
 const Header = () => {
+  useEffect(() => {
+    const headerToggleBtn = document.querySelector('.header-toggle');
+    if (headerToggleBtn) {
+      const headerToggle = () => {
+        document.querySelector('#header').classList.toggle('header-show');
+        headerToggleBtn.classList.toggle('bi-list');
+        headerToggleBtn.classList.toggle('bi-x');
+      };
+      headerToggleBtn.addEventListener('click', headerToggle);
+
+      document.querySelectorAll('#navmenu a').forEach(navmenu => {
+        navmenu.addEventListener('click', () => {
+          if (document.querySelector('.header-show')) {
+            headerToggle();
+          }
+        });
+      });
+
+      return () => {
+        headerToggleBtn.removeEventListener('click', headerToggle);
+        document.querySelectorAll('#navmenu a').forEach(navmenu => {
+          navmenu.removeEventListener('click', () => {
+            if (document.querySelector('.header-show')) {
+              headerToggle();
+            }
+          });
+        });
+      };
+    }
+  }, []);
+
   return (
     <header id="header" className="header d-flex flex-column justify-content-center">
       <i className="header-toggle d-xl-none bi bi-list"></i>

@@ -6,7 +6,7 @@ const About = () => {
       <div className="container section-title" data-aos="fade-up">
         <h2>About</h2>
         <div className="about-container">
-          <img src="/assets/img/portfolio/Me1.jpg" className="img-fluid about-img" alt="Me" />
+          <Image src="/assets/img/portfolio/Me1.jpg" className="img-fluid about-img" alt="Me" width={400} height={400} />
           <p className="py-3">
             I'm a Computer Science student passionate about algorithms, data structures, and backend development.
             My academic journey has equipped me with a strong theoretical foundation, while personal projects taught me
