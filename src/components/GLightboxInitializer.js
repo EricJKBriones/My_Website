@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import GLightbox from 'glightbox';
+
 
 const GLightboxInitializer = () => {
   useEffect(() => {
