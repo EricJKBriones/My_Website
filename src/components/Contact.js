@@ -2,14 +2,17 @@
 
 import React, { useState } from 'react';
 
-const Contact = ({ onMessageSend }) => {
+const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState({ loading: false, error: null, sent: false });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!message) {
-      setStatus({ loading: false, error: 'Please enter a message.', sent: false });
+    if (!name || !email || !subject || !message) {
+      setStatus({ loading: false, error: 'Please fill in all fields.', sent: false });
       return;
     }
 
@@ -19,7 +22,7 @@ const Contact = ({ onMessageSend }) => {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ name, email, subject, message }),
       });
 
       if (!res.ok) {
@@ -30,7 +33,7 @@ const Contact = ({ onMessageSend }) => {
       const data = await res.json();
       if (data.status === "Message sent and saved!") {
         setStatus({ loading: false, error: null, sent: true });
-        onMessageSend(message);
+        
         setMessage('');
         setTimeout(() => setStatus({ loading: false, error: null, sent: false }), 2000);
       } else {
@@ -81,8 +84,41 @@ const Contact = ({ onMessageSend }) => {
           </div>
 
           <div className="col-lg-8">
-            <form onSubmit={handleSubmit} className="fade-up" data-aos="fade-up" data-aos-delay="200">
+            <form onSubmit={handleSubmit} className="php-email-form fade-up" data-aos="fade-up" data-aos-delay="200">
               <div className="row gy-4">
+                <div className="col-md-6">
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
+                    placeholder="Your Name"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    type="email"
+                    className="form-control"
+                    name="email"
+                    placeholder="Your Email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="subject"
+                    placeholder="Subject"
+                    required
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                  />
+                </div>
                 <div className="col-md-12">
                   <textarea
                     className="form-control"

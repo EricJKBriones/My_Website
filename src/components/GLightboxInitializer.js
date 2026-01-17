@@ -5,13 +5,15 @@ import { useEffect } from 'react';
 
 const GLightboxInitializer = () => {
   useEffect(() => {
-    const lightbox = GLightbox({
-      selector: '.glightbox'
-    });
+    if (window.GLightbox) {
+      const lightbox = window.GLightbox({
+        selector: '.glightbox'
+      });
 
-    return () => {
-      lightbox.destroy();
-    };
+      return () => {
+        lightbox.destroy();
+      };
+    }
   }, []);
 
   return null;

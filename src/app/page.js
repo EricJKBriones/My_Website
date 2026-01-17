@@ -20,21 +20,21 @@ import GLightboxInitializer from '@/components/GLightboxInitializer';
 export default function Home() {
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    fetch('/api/get-messages')
-      .then(resp => resp.json())
-      .then(data => {
-        if (data.messages) {
-          setMessages(data.messages);
-        }
-      })
-      .catch(err => {
-        console.error('Error loading messages:', err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('/api/get-messages')
+  //     .then(resp => resp.json())
+  //     .then(data => {
+  //       if (data.messages) {
+  //         setMessages(data.messages);
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.error('Error loading messages:', err);
+  //     });
+  // }, []);
 
   const handleMessageSend = (newMessage) => {
-    setMessages([newMessage, ...messages]);
+    // setMessages([newMessage, ...messages]);
   };
 
   return (
@@ -54,8 +54,8 @@ export default function Home() {
         <Resume />
         <Portfolio />
         <Services />
-        <Messages messages={messages} />
-        <Contact onMessageSend={handleMessageSend} />
+        {/* <Messages messages={messages} /> */}
+        <Contact />
       </main>
       
       <Footer />

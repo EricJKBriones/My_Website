@@ -2,18 +2,17 @@
 
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Isotope from 'isotope-layout';
-import imagesLoaded from 'imagesloaded';
+
 
 const Portfolio = () => {
   const isotopeContainer = useRef(null);
   const isotopeInstance = useRef(null);
 
   useEffect(() => {
-    if (isotopeContainer.current) {
-      const imgLoad = imagesLoaded(isotopeContainer.current);
+    if (isotopeContainer.current && window.imagesLoaded && window.Isotope) {
+      const imgLoad = window.imagesLoaded(isotopeContainer.current);
       imgLoad.on('done', () => {
-        isotopeInstance.current = new Isotope(isotopeContainer.current, {
+        isotopeInstance.current = new window.Isotope(isotopeContainer.current, {
           itemSelector: '.isotope-item',
           layoutMode: 'masonry',
           filter: '*',

@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import { kv } from '@vercel/kv';
+// import { kv } from '@vercel/kv';
 
 export async function POST(request) {
   try {
-    const { message } = await request.json();
+    const { name, email, subject, message } = await request.json();
 
     // Save to Vercel KV
-    const timestamp = new Date().toISOString();
-    await kv.lpush('messages', JSON.stringify({ message, timestamp }));
+    // const timestamp = new Date().toISOString();
+    // await kv.lpush('messages', JSON.stringify({ name, email, subject, message, timestamp }));
 
     // Send email using Nodemailer
     const transporter = nodemailer.createTransport({
@@ -20,15 +20,15 @@ export async function POST(request) {
     });
 
     const mailOptions = {
-      from: process.env.GMAIL_USER,
+      from: email,
       to: 'briones.eric2003@gmail.com',
-      subject: 'New Message from Portfolio Contact Form',
+      subject: `New Message from ${name}: ${subject}`,
       text: message,
     };
 
     await transporter.sendMail(mailOptions);
 
-    return NextResponse.json({ status: 'Message sent and saved!' });
+    return NextResponse.json({ status: 'Message sent!' });
   } catch (error) {
     console.error('Error processing request:', error);
     return NextResponse.json({ status: 'Error processing request' }, { status: 500 });
