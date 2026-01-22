@@ -1,11 +1,1 @@
-{
-  "version": 4,
-  "routes": {},
-  "dynamicRoutes": {},
-  "notFoundRoutes": [],
-  "preview": {
-    "previewModeId": "8bba475c10c71a0c2d2387848efd1a1f",
-    "previewModeSigningKey": "c578b8fb91673e73d1c857ef25cbc364d2a5c603de2ab252cc69f1d9e420d750",
-    "previewModeEncryptionKey": "e97305495cf00624456b2b8ce9c8b6e0644058afc7865f753094f5fd04eb195b"
-  }
-}
+{"version":4,"routes":{"/":{"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data;.*"}],"initialRevalidateSeconds":false,"srcRoute":"/","dataRoute":"/index.rsc"},"/api/get-messages":{"initialHeaders":{"content-type":"application/json","x-next-cache-tags":"_N_T_/layout,_N_T_/api/layout,_N_T_/api/get-messages/layout,_N_T_/api/get-messages/route,_N_T_/api/get-messages"},"experimentalBypassFor":[{"type":"header","key":"Next-Action"},{"type":"header","key":"content-type","value":"multipart/form-data;.*"}],"initialRevalidateSeconds":false,"srcRoute":"/api/get-messages","dataRoute":null}},"dynamicRoutes":{},"notFoundRoutes":[],"preview":{"previewModeId":"3c5b337bd5c1a22fcc3bd1e26de36449","previewModeSigningKey":"05d21b5894bcaca7ebb3216800e151bb7995c6bf587a1ddd9b370ec3074f96bf","previewModeEncryptionKey":"6d4dcdecae4f881f6e80688db24d57e9429cf674ba2cbbbbd5e28081ed8c2a39"}}
