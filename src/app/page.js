@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import FloatingIcons from '@/components/FloatingIcons';
+import FloatingIcons from '@/components/FloatingIcons.tsx';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import About from '@/components/About';

@@ -21,21 +21,36 @@ const Portfolio = () => {
       });
     }
 
-    const filters = document.querySelectorAll('.isotope-filters li');
-    filters.forEach(filter => {
-      filter.addEventListener('click', () => {
-        const filterValue = filter.getAttribute('data-filter');
-        if (isotopeInstance.current) {
-          isotopeInstance.current.arrange({ filter: filterValue });
-        }
-        filters.forEach(f => f.classList.remove('filter-active'));
-        filter.classList.add('filter-active');
-      });
-    });
+    // Create a handler function to avoid duplicates
+    const handleFilterClick = (e) => {
+      if (!e.currentTarget.classList.contains('isotope-filters')) return;
+      const filter = e.target.closest('li');
+      if (!filter) return;
+      
+      const filterValue = filter.getAttribute('data-filter');
+      if (isotopeInstance.current) {
+        isotopeInstance.current.arrange({ filter: filterValue });
+      }
+      
+      const filters = document.querySelectorAll('.isotope-filters li');
+      filters.forEach(f => f.classList.remove('filter-active'));
+      filter.classList.add('filter-active');
+    };
+
+    const filtersContainer = document.querySelector('.isotope-filters');
+    if (filtersContainer) {
+      filtersContainer.addEventListener('click', handleFilterClick);
+    }
 
     return () => {
       if (isotopeInstance.current) {
         isotopeInstance.current.destroy();
+        isotopeInstance.current = null;
+      }
+      
+      const filtersContainer = document.querySelector('.isotope-filters');
+      if (filtersContainer) {
+        filtersContainer.removeEventListener('click', handleFilterClick);
       }
     };
   }, []);
@@ -56,7 +71,7 @@ const Portfolio = () => {
           </ul>
 
           <div ref={isotopeContainer} className="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-3dart" key="1">
+            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-3dart" key="portfolio-3dart-1">
               <Image src="/assets/img/masonry-portfolio/3D (1).jpg" className="img-fluid" alt="3D Art" width={800} height={600} />
               <div className="portfolio-info">
                 <h4>3D Art</h4>
@@ -65,7 +80,7 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-projects" key="2">
+            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-projects" key="portfolio-projects-1">
               <Image src="/assets/img/masonry-portfolio/Piezoelectric Project Prototype.jpeg" className="img-fluid" alt="Prototype" width={800} height={600} />
               <div className="portfolio-info">
                 <h4>Prototype</h4>
@@ -75,7 +90,7 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-projects" key="3">
+            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-projects" key="portfolio-projects-2">
               <Image src="/assets/img/masonry-portfolio/Projects Java.png" className="img-fluid" alt="Java Project" width={800} height={600} />
               <div className="portfolio-info">
                 <h4>Java Project</h4>
@@ -85,7 +100,7 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-projects" key="4">
+            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-projects" key="portfolio-projects-3">
                 <Image src="/assets/img/masonry-portfolio/Piezoelectric Project Blueprint.png" className="img-fluid" alt="Blueprint" width={800} height={600} />
                 <div className="portfolio-info">
                     <h4>Blueprint</h4>
@@ -95,7 +110,7 @@ const Portfolio = () => {
                 </div>
             </div>
 
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-3dart" key="5">
+            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-3dart" key="portfolio-3dart-2">
                 <Image src="/assets/img/masonry-portfolio/3D (2).jpg" className="img-fluid" alt="3D Art 2" width={800} height={600} />
                 <div className="portfolio-info">
                     <h4>3D Art 2</h4>
@@ -105,7 +120,7 @@ const Portfolio = () => {
                 </div>
             </div>
 
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-certificates" key="6">
+            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-certificates" key="portfolio-cert-1">
                 <Image src="/assets/img/masonry-portfolio/Coursera G34GWLOMO3G7.png" className="img-fluid" alt="Certificate" width={800} height={600} />
                 <div className="portfolio-info">
                     <h4>Certificate</h4>
@@ -115,7 +130,7 @@ const Portfolio = () => {
                 </div>
             </div>
             
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-certificates" key="7">
+            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-certificates" key="portfolio-cert-2">
               <Image src="/assets/img/masonry-portfolio/Coursera FQS62O7POYYD.png" className="img-fluid" alt="Certificate" width={800} height={600} />
               <div className="portfolio-info">
                 <h4>Certificate</h4>
@@ -125,7 +140,7 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-certificates" key="8">
+            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-certificates" key="portfolio-cert-3">
               <Image src="/assets/img/masonry-portfolio/Coursera GDVGQ7MUTRRJ.png" className="img-fluid" alt="Certificate" width={800} height={600} />
               <div className="portfolio-info">
                 <h4>Certificate</h4>
@@ -135,7 +150,7 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-certificates" key="9">
+            <div className="col-lg-4 col-md-6 portfolio-item isotope-item filter-certificates" key="portfolio-cert-4">
               <Image src="/assets/img/masonry-portfolio/Coursera TID88N7X8JPO.png" className="img-fluid" alt="Certificate" width={800} height={600} />
               <div className="portfolio-info">
                 <h4>Certificate</h4>

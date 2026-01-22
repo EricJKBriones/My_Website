@@ -62,9 +62,6 @@
   background-repeat: no-repeat;
   background-position: center;
   animation: float var(--animation-duration) ease-in-out infinite;
-  /* Define CSS variables for random movement */
-  --rand-x: calc((random() - 0.5) * 100vw);
-  --rand-y: calc((random() - 0.5) * 100vh);
 }
 
 /* About image restraint */

@@ -52,10 +52,13 @@ const FloatingIcons = () => {
 
   // Initialize icons on mount
   useEffect(() => {
-    const initialIcons = Array.from({ length: 8 }).map((_, index) => {
-      const currentUsedIcons = initialIcons ? initialIcons.map(icon => icon.iconSrc) : [];
-      return generateIconProperties(index, currentUsedIcons);
-    });
+    const initialIcons = [];
+    const currentUsedIcons = [];
+    for (let i = 0; i < 8; i++) {
+      const icon = generateIconProperties(i, currentUsedIcons);
+      initialIcons.push(icon);
+      currentUsedIcons.push(icon.iconSrc);
+    }
     setIcons(initialIcons);
   }, []);
 

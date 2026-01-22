@@ -32,8 +32,8 @@ const Messages = ({ messages }) => {
               </div>
             </div>
           )}
-          {messages.map((message, index) => (
-            <div key={index} className="col-lg-8 mx-auto">
+          {messages.map((message) => (
+            <div key={message.id || `msg-${message}`} className="col-lg-8 mx-auto">
               <div className="testimonial-item">
                 <div className="testimonial-content">
                   <p>
