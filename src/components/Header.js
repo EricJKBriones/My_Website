@@ -5,33 +5,40 @@ import React, { useEffect } from 'react';
 const Header = () => {
   useEffect(() => {
     const headerToggleBtn = document.querySelector('.header-toggle');
+    const headerToggle = () => {
+      document.querySelector('#header').classList.toggle('header-show');
+      headerToggleBtn.classList.toggle('bi-list');
+      headerToggleBtn.classList.toggle('bi-x');
+    };
     if (headerToggleBtn) {
-      const headerToggle = () => {
-        document.querySelector('#header').classList.toggle('header-show');
-        headerToggleBtn.classList.toggle('bi-list');
-        headerToggleBtn.classList.toggle('bi-x');
-      };
       headerToggleBtn.addEventListener('click', headerToggle);
-
-      document.querySelectorAll('#navmenu a').forEach(navmenu => {
-        navmenu.addEventListener('click', () => {
-          if (document.querySelector('.header-show')) {
-            headerToggle();
-          }
-        });
-      });
-
-      return () => {
-        headerToggleBtn.removeEventListener('click', headerToggle);
-        document.querySelectorAll('#navmenu a').forEach(navmenu => {
-          navmenu.removeEventListener('click', () => {
-            if (document.querySelector('.header-show')) {
-              headerToggle();
-            }
-          });
-        });
-      };
     }
+    
+    const handleNavClick = (e) => {
+      e.preventDefault();
+      const targetId = e.currentTarget.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+      if (document.querySelector('.header-show')) {
+        headerToggle();
+      }
+    };
+
+    const navLinks = document.querySelectorAll('#navmenu a');
+    navLinks.forEach(navmenu => {
+      navmenu.addEventListener('click', handleNavClick);
+    });
+
+    return () => {
+      if (headerToggleBtn) {
+        headerToggleBtn.removeEventListener('click', headerToggle);
+      }
+      navLinks.forEach(navmenu => {
+        navmenu.removeEventListener('click', handleNavClick);
+      });
+    };
   }, []);
 
   return (

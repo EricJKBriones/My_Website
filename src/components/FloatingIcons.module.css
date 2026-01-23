@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
@@ -15,33 +15,16 @@
   align-items: center;
   justify-content: center;
   color: var(--primary-color, #007bff);
-  opacity: 0.3;
+  opacity: 0.5;
   font-size: 2.5rem;
+  transition: top 1s ease-in-out, left 1s ease-in-out, opacity 0.5s ease-out;
 }
-
-@keyframes float {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(10deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-}
-
-.iconWrapper:nth-child(1) { top: 15%; left: 10%; animation: float 8s ease-in-out infinite; }
-.iconWrapper:nth-child(2) { top: 25%; left: 85%; animation: float 10s ease-in-out infinite 1s; }
-.iconWrapper:nth-child(3) { top: 60%; left: 15%; animation: float 12s ease-in-out infinite 2s; }
-.iconWrapper:nth-child(4) { top: 75%; left: 70%; animation: float 9s ease-in-out infinite 0.5s; }
-.iconWrapper:nth-child(5) { top: 10%; left: 50%; animation: float 11s ease-in-out infinite 3s; }
-.iconWrapper:nth-child(6) { top: 85%; left: 35%; animation: float 13s ease-in-out infinite 1.5s; }
-.iconWrapper:nth-child(7) { top: 45%; left: 90%; animation: float 10s ease-in-out infinite 2.5s; }
-.iconWrapper:nth-child(8) { top: 40%; left: 5%; animation: float 14s ease-in-out infinite 0.5s; }
 
 @media (max-width: 768px) {
   .iconWrapper {
     font-size: 1.5rem;
+    opacity: 0.3;
+    width: 50px !important;
+    height: 50px !important;
   }
 }

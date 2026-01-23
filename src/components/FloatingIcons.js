@@ -1,6 +1,6 @@
 'use client';
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import styles from './FloatingIcons.module.css';
 
 const allIcons = [
   '/assets/img/icons/3d.png', '/assets/img/icons/adobe_photoshop.png',
@@ -13,94 +13,124 @@ const allIcons = [
   '/assets/img/icons/web.png'
 ];
 
-// Helper to get a random item from an array
-const getRandomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
-// Function to generate properties for a single icon
-const generateIconProperties = (id, currentUsedIcons = []) => {
-  let iconSrc = getRandomItem(allIcons);
-  // Ensure no duplicated icon (currently visible)
-  let attempts = 0;
-  while (currentUsedIcons.includes(iconSrc) && attempts < allIcons.length) {
-    iconSrc = getRandomItem(allIcons);
-    attempts++;
-  }
-
-  const initialX = `${(Math.random() * 100)}vw`;
-  const initialY = `${(Math.random() * 100)}vh`;
-  const finalX = `${(Math.random() - 0.5) * 200}vw`; // Move further
-  const finalY = `${(Math.random() - 0.5) * 200}vh`; // Move further
-
+const generateIconProperties = (iconSrc, index) => {
+  const size = Math.random() * 40 + 20;
   return {
-    id,
+    id: index,
     iconSrc,
-    top: `${Math.random() * 100}vh`,
-    left: `${Math.random() * 100}vw`,
-    minWidth: `${Math.random() * 40 + 20}px`, // Random size between 20px and 60px
-    minHeight: `${Math.random() * 40 + 20}px`, // Random size between 20px and 60px
-    animationDelay: `${Math.random() * 5}s`, // Random delay up to 5s
-    animationDuration: `${Math.random() * 15 + 10}s`, // Random duration between 10s and 25s
-    initialX,
-    initialY,
-    finalX,
-    finalY,
+    top: Math.random() * (window.innerHeight - size),
+    left: Math.random() * (window.innerWidth - size),
+    width: size,
+    height: size,
+    vx: (Math.random() - 0.5) * 2,
+    vy: (Math.random() - 0.5) * 2,
   };
 };
 
 const FloatingIcons = () => {
-  const [icons, setIcons] = useState([]);
+    const [icons, setIcons] = useState([]);
+    const iconRefs = useRef([]);
+    const iconsRef = useRef([]);
 
-  // Initialize icons on mount
-  useEffect(() => {
-    const initialIcons = [];
-    const currentUsedIcons = [];
-    for (let i = 0; i < 8; i++) {
-      const icon = generateIconProperties(i, currentUsedIcons);
-      initialIcons.push(icon);
-      currentUsedIcons.push(icon.iconSrc);
-    }
-    setIcons(initialIcons);
-  }, []);
+    useEffect(() => {
+        let initialIcons = allIcons.map((iconSrc, index) => generateIconProperties(iconSrc, index));
+        iconsRef.current = initialIcons;
+        setIcons(initialIcons);
+        iconRefs.current = Array(initialIcons.length).fill(null).map((_, i) => iconRefs.current[i] || React.createRef());
 
-  // Periodically update icons
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIcons(prevIcons => {
-        const iconToUpdateIndex = Math.floor(Math.random() * prevIcons.length);
-        const currentUsedIcons = prevIcons.map(icon => icon.iconSrc);
-        const updatedIcons = [...prevIcons];
-        updatedIcons[iconToUpdateIndex] = generateIconProperties(prevIcons[iconToUpdateIndex].id, currentUsedIcons);
-        return updatedIcons;
-      });
-    }, 3000); // Update an icon every 3 seconds
+        let animationFrameId;
+        const animate = () => {
+          const newIcons = iconsRef.current.map(icon => {
+            let newVx = icon.vx + (Math.random() - 0.5) * 0.1;
+            let newVy = icon.vy + (Math.random() - 0.5) * 0.1;
 
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  }, []);
+            newVx = Math.max(-1, Math.min(1, newVx));
+            newVy = Math.max(-1, Math.min(1, newVy));
 
+            let newLeft = icon.left + newVx;
+            let newTop = icon.top + newVy;
 
-  return (
-    <>
-      {icons.map((icon) => (
-        <div
-          key={icon.id}
-          className="scroll-symbol"
-          style={{
-            top: icon.top,
-            left: icon.left,
-            backgroundImage: `url('${icon.iconSrc}')`,
-            minWidth: icon.minWidth,
-            minHeight: icon.minHeight,
-            animationDelay: icon.animationDelay,
-            animationDuration: icon.animationDuration,
-            '--initial-x': icon.initialX,
-            '--initial-y': icon.initialY,
-            '--final-x': icon.finalX,
-            '--final-y': icon.finalY,
-          }}
-        />
-      ))}
-    </>
-  );
+            if (newLeft < 0 || newLeft > window.innerWidth - icon.width) {
+              newVx = -newVx;
+              newLeft = icon.left + newVx;
+            }
+            if (newTop < 0 || newTop > window.innerHeight - icon.height) {
+              newVy = -newVy;
+              newTop = icon.top + newVy;
+            }
+
+            return {
+              ...icon,
+              left: newLeft,
+              top: newTop,
+              vx: newVx,
+              vy: newVy,
+            };
+          });
+          iconsRef.current = newIcons;
+          setIcons(newIcons);
+          animationFrameId = requestAnimationFrame(animate);
+        };
+
+        animationFrameId = requestAnimationFrame(animate);
+
+        const contentElements = Array.from(document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, img'));
+        const handleOpacity = () => {
+            iconsRef.current.forEach((icon, index) => {
+                const ref = iconRefs.current[index];
+                if (ref && ref.current) {
+                    const iconRect = ref.current.getBoundingClientRect();
+                    let isOverlapping = false;
+        
+                    for (const elem of contentElements) {
+                        const elemRect = elem.getBoundingClientRect();
+                        if (
+                            iconRect.left < elemRect.right &&
+                            iconRect.right > elemRect.left &&
+                            iconRect.top < elemRect.bottom &&
+                            iconRect.bottom > elemRect.top
+                        ) {
+                            isOverlapping = true;
+                            break;
+                        }
+                    }
+        
+                    if (isOverlapping) {
+                        ref.current.style.opacity = '0.1';
+                    } else {
+                        ref.current.style.opacity = '0.5';
+                    }
+                }
+            });
+        };
+        
+        const intervalId = setInterval(handleOpacity, 200);
+
+        return () => {
+          cancelAnimationFrame(animationFrameId);
+          clearInterval(intervalId);
+        };
+    }, []);
+
+    return (
+        <div className={styles.container}>
+            {icons.map((icon, index) => (
+                <div
+                    key={icon.id}
+                    ref={iconRefs.current[index]}
+                    className={styles.iconWrapper}
+                    style={{
+                        top: `${icon.top}px`,
+                        left: `${icon.left}px`,
+                        width: `${icon.width}px`,
+                        height: `${icon.height}px`,
+                    }}
+                >
+                    <img src={icon.iconSrc} alt="" style={{ width: '100%', height: '100%' }} />
+                </div>
+            ))}
+        </div>
+    );
 };
 
 export default FloatingIcons;

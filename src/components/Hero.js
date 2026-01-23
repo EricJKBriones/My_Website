@@ -13,7 +13,7 @@ const Hero = () => {
 
     <section id="hero" className="hero section light-background">
 
-      <Image src="/assets/img/portfolio/Skills.PNG" alt="" width={1920} height={1080} layout="responsive" objectFit="cover" />
+      <Image src="/assets/img/portfolio/Skills.PNG" alt="" fill={true} style={{objectFit: "cover"}} />
 
 
 

@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // (Optional) Add any Next.js configuration here
+  async rewrites() {
+    return [
+      {
+        source: '/',
+        destination: '/src/app/page.js',
+      },
+    ]
+  },
 };
 
 export default nextConfig;
